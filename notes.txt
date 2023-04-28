@@ -1,0 +1,115 @@
+A language built on javascript.
+A superset of JS.
+Browsers and NodeJS can't execute typescript.
+
+A compiler you run to complie TS to JS. Then you get JS code. With all the advantages of TS.
+It compiles the new features into something JS understands.
+Adds nicer syntax, new features.
+It adds types.
+Identify errores before it runs in the browser. Error checking before runtime.
+So JS sees errors in runtime but TS when you compile.
+
+Less errores in runtime.
+
+Install TS: npm install -g typescript (actually installs the compiler)
+
+With tsc command: compile a ts file into js.
+
+The addition of types is the advantage over JS.
+
+Compiling: tsc using-ts.ts
+This creates a using-ts.js file.
+
+In the index.html file you import the JS file, not the TS file!! Import the result of the compilation!
+
+TS adds:
+- Types: be explicit about how things work. Less errors.
+- Adds interfaces and generics
+- Decorators
+- You can configurate TS
+
+WORKING WITH TYPES
+
+Core Types for JS and TS:
+- number: all types of numbers
+- string: text
+- boolean: true or false
+
+Assign types to avoid errors.
+Only during compilation (during development) before compiling code into JS.
+An extra check. It does not check your runtime code, it only helps you during development.
+
+JS is dynamically typed: a variable can hold a number and then another type. We check the current type at runtime.
+TS is statically typed: you define the type of the variable during development, it can't change during runtime.
+
+Core primitive types in TS are lowercase! number, string, boolean.
+
+Type inference: TS tries to understand which type you have in a variable or constant.
+Example:
+//const number1 = 5; //because you initialized it, it understands that it is a number
+//let number1: number = 5; //is redundant, TS infers type from value
+let number1: number; //is good practice because you don't assign the value when declaring it so it doesn't know what it is
+number1 = 5;
+- So if you assign a value when you declare it, there's no need to explicitly declare the type as well because it infers it.
+If you don't assign a value, then you must specify the type so that it won't be "any". And when you assign a value, it will check that the type is correct.
+
+More types:
+- object: JS objects and specific types of objects.
+Object Types are written almost like JS objects: they describe the type of object.
+Example:
+person = {
+    name: string;
+    age: number;
+}
+- arrays: type can be flexible or strict in TS
+string[] type of the array
+any[] allows the array to be flexible but it loses the type control that TS offers
+
+TS Types (doesn't exist in JS):
+- Tuple: a fixed length and type array
+Example: role: [2, "author"], //a tuple, of always two elements, one a number and the other a string
+And TS infers: role: (string | number) that is, an array with those types of values
+- Enum: enum { NEW, OLD } enumerated list that starts in zero
+NEW is 0 and OLD is 1
+You could assign a value to the enum, example: NEW = 5 (or even text if you want!)
+The enum you create will be a custom type.
+- any: you can store any kind of value, anything you want! That way you don't get errors but it's like using JS, you can store whatever you want.
+Try to avoid using it!! Unless it's really REALLY necessary.
+- Union: accept two different kinds of values. You are fine with either. Use the pipe |.
+You might need some runtime type check if some function works differently depending on the type of data.
+- Literal: const number2 = 2.8 it doesn't infer type number, it's a const, doesn't change so it will always be 2.8
+
+Type Aliases - Custom Types:
+- alias: type CustomTypeName
+type Combinable = number | string; => input1: Combinable
+You create your own types and usually use it with unions but not only that! Objects as well.
+Type Aliases and Object types:
+Example: type User = { name: string; age: number };
+const u1: User = { name: 'Max', age: 30 };
+The use of aliases is to avoid unnecessary repetition and to manage types centrally.
+
+Function Return Types and void:
+- TS can infer the return type
+- You can explicitly assign the return type but it's not necessary to set it unless TS can't infer it.
+- void: a function that doesn't return anything just does something like print a result for example. You set it as : void but again, if inferred, it's not necessary to set it.
+- undefined is a type in TS but a function cannot return undefined, if it returns nothing, you should use void.
+return; doesn't return a value and then you can use return type undefined, you don't return an actual value.
+But if you don't use the "return" and only use a console.log then you should use a void. This will rarely happen.
+
+Functions as Types:
+- store a function in a variable
+- Function types describe a function. Which type of function we want to use. Parameters and return type.
+let combineValues: (a: number, b: number) => number; //accepts any function that returns a number and accepts two parameters of type number
+
+Function Types and Callbacks:
+- A callback function, you pass it as parameter
+- if you declare that it returns void, as in it doesn't return anything, and then you assign the "result" to a variable, it won't have anything because even if you put return in it, it will ignore it because the return type is declared as void.
+
+Unknown Type:
+- it's not the same as any. But you can store any value in it without getting compilation errors.
+It's more restrictive than any. You can't assign a number then that to variable of type string. Because unkonwn might not be a string. You'd need to check the type.
+It's better than any as in you are forced to check types instead of letting it be anything it wants.
+
+Never Type:
+- A function that will never return anything, like a throw, it throws an error, never returns something. It would have a return type never (even if TS seems to infer void)
+
